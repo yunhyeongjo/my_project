@@ -1,43 +1,62 @@
 <template>
-  <BgmPlayer />
-  <div class="next-wrapper">
-    <transition name="fade" mode="out-in">
-      <div
-        v-if="currentItem"
-        :key="currentIndex"
-        class="fade-block"
-      >
-        <img :src="currentItem.img" alt="Slide" class="fade-image" />
-        <p class="fade-text">{{ typedText }}</p>
+  <div id="bbdoy">
+    <BgmPlayer />
+    <div class="next-wrapper">
+      <div class="sakura-container"></div>
+
+      <div class="fade-block">
+        <transition name="fade" mode="out-in">
+          <div v-if="currentItem" :key="currentIndex" class="image-container">
+            <img :src="currentItem.img" alt="Slide" class="fade-image" />
+          </div>
+        </transition>
+        <transition name="fade" mode="out-in">
+          <div v-if="currentItem" :key="'text-' + currentIndex" class="text-container">
+            <p class="fade-text">{{ typedText }}</p>
+          </div>
+        </transition>
       </div>
-    </transition>
+    </div>
+    <div class="bottom-text" v-if="showNextLink" @click="goToNext">
+      <p>여기를 눌러서 이동하기</p>
+    </div>
   </div>
 </template>
 
 <script setup>
 import { ref, onMounted } from 'vue'
+import { useRouter } from 'vue-router'
 import BgmPlayer from '@/components/BgmPlayer.vue'
+import img1 from '../assets/img1.jpg'
+import img2 from '../assets/img2.jpg'
+import img3 from '../assets/img3.jpg'
+import img4 from '../assets/img4.jpg'
+import img5 from '../assets/img5.jpg'
 
-// === ✅ 설정값 (자유롭게 조절 가능) ===
-const TYPING_DELAY = 1000 // 이미지가 뜬 후, 타자기 효과 시작까지 대기 시간 (ms)
-const TYPING_SPEED = 100 // 타자기 효과로 한 글자 표시 속도 (ms)
-const DISPLAY_DURATION = 4000 // 하나의 항목(이미지+텍스트) 보여주는 전체 시간 (ms)
+const TYPING_DELAY = 1000
+const TYPING_SPEED = 100
+const DISPLAY_DURATION = 4000
 
-// === ✅ 항목 목록 (이미지 경로 + 텍스트) ===
+const router = useRouter()
+
+function goToNext() {
+  router.push('/next')
+}
+
 const items = [
-  { img: '../assets/img1.jpg', text: '첫 번째 이야기입니다' },
-  { img: '../assets/img2.jpg', text: '두 번째 장면이 시작됩니다' },
-  { img: '../assets/img3.jpg', text: '세 번째로 넘어가볼까요?' },
-  { img: '../assets/img4.jpg', text: '네 번째 사진입니다' },
-  { img: '../assets/img5.jpg', text: '마지막 이야기를 전합니다' }
+  { img: img1, text: '첫 번째 이야기입니다' },
+  { img: img2, text: '두 번째 장면이 시작됩니다' },
+  { img: img3, text: '세 번째로 넘어가볼까요?' },
+  { img: img4, text: '네 번째 사진입니다' },
+  { img: img5, text: '마지막 이야기를 전합니다' }
 ]
 
+const showNextLink = ref(false)
 const currentIndex = ref(0)
 const typedText = ref('')
 const currentItem = ref(items[0])
 
-// 타자기 효과 출력 함수
-function typeText (text) {
+function typeText(text) {
   typedText.value = ''
   let i = 0
   const interval = setInterval(() => {
@@ -47,8 +66,7 @@ function typeText (text) {
   }, TYPING_SPEED)
 }
 
-// 항목 전환 함수
-function showItem (index) {
+function showItem(index) {
   currentItem.value = null
   typedText.value = ''
 
@@ -58,17 +76,14 @@ function showItem (index) {
     setTimeout(() => {
       typeText(items[index].text)
     }, TYPING_DELAY)
-  }, 300) // 트랜지션 대기 시간
+  }, 300)
 }
 
-// 최초 mount 시 실행
 onMounted(() => {
-  // 첫 항목: 이미지 즉시 → 텍스트는 1초 후
   setTimeout(() => {
     typeText(items[0].text)
   }, TYPING_DELAY)
 
-  // 2번째 이후 항목 순차 진행
   let i = 1
   const interval = setInterval(() => {
     if (i < items.length) {
@@ -76,13 +91,18 @@ onMounted(() => {
       i++
     } else {
       clearInterval(interval)
+      setTimeout(() => {
+        showNextLink.value = true
+      }, 100)
     }
   }, DISPLAY_DURATION)
+
+  new Sakura("#bbdoy")
 })
+
 </script>
 
 <style scoped>
-/* 전체 뷰 */
 .next-wrapper {
   display: flex;
   align-items: center;
@@ -93,43 +113,82 @@ onMounted(() => {
   position: relative;
 }
 
-/* 이미지 + 텍스트가 항상 중앙에 위치 */
 .fade-block {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  text-align: center;
+  position: relative;
   width: 100%;
-  max-width: 320px;
+  max-width: 360px;
+  height: 100%;
+  pointer-events: none;
 }
 
-/* 이미지 중앙 고정 */
+.image-container {
+  position: absolute;
+  top: 20%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 300px;
+  height: 300px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .fade-image {
   width: 100%;
-  height: auto;
-  max-width: 300px;
-  border-radius: 12px;
+  height: 100%;
   object-fit: contain;
-  display: block;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-  transition: opacity 0.5s ease;
 }
 
-/* 텍스트 */
+.text-container {
+  position: absolute;
+  top: 65%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 90%;
+  text-align: center;
+}
+
 .fade-text {
-  margin-top: 12px;
   font-size: 1.2rem;
   color: #333;
   font-family: 'Imk', sans-serif;
   white-space: pre-wrap;
 }
 
-/* 페이드 효과 */
-.fade-enter-active, .fade-leave-active {
+.fade-enter-active,
+.fade-leave-active {
   transition: opacity 0.6s ease;
 }
-.fade-enter-from, .fade-leave-to {
+
+.fade-enter-from,
+.fade-leave-to {
   opacity: 0;
+}
+
+.bottom-text {
+  position: absolute;
+  bottom: 5%;
+  width: 100%;
+  text-align: center;
+  color: rgb(0, 0, 0);
+  font-size: 1.4rem;
+  text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.7);
+  font-family: 'Imk', sans-serif;
+  z-index: 2;
+  animation: blink 1.5s infinite;
+  cursor: pointer;
+}
+
+@keyframes blink {
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0;
+  }
 }
 </style>
