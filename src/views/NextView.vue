@@ -2,6 +2,7 @@
   <div id="bbdoy">
     <BgmPlayer />
     <div class="next-wrapper">
+      <img src="@/assets/background2.jpg" alt="Background" class="bg-image" />
       <div class="sakura-container"></div>
 
       <div class="fade-block">
@@ -35,16 +36,16 @@ import img5 from '../assets/img5.jpg'
 
 const TYPING_DELAY = 1000
 const TYPING_SPEED = 100
-const DISPLAY_DURATION = 4000
+const DISPLAY_DURATION = 6000
 
 const router = useRouter()
 
 function goToNext() {
-  router.push('/next')
+  router.push('/last')
 }
 
 const items = [
-  { img: img1, text: '첫 번째 이야기입니다' },
+  { img: img1, text: '첫 번째 이야기입니다zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz' },
   { img: img2, text: '두 번째 장면이 시작됩니다' },
   { img: img3, text: '세 번째로 넘어가볼까요?' },
   { img: img4, text: '네 번째 사진입니다' },
@@ -76,7 +77,7 @@ function showItem(index) {
     setTimeout(() => {
       typeText(items[index].text)
     }, TYPING_DELAY)
-  }, 300)
+  }, 500)
 }
 
 onMounted(() => {
@@ -103,6 +104,15 @@ onMounted(() => {
 </script>
 
 <style scoped>
+.bg-image {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
+  opacity: 0.6;
+}
+
 .next-wrapper {
   display: flex;
   align-items: center;
@@ -137,6 +147,7 @@ onMounted(() => {
   width: 100%;
   height: 100%;
   object-fit: contain;
+  background: white;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
 }
 
