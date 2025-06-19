@@ -2,6 +2,7 @@ import { createRouter, createWebHashHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import NextView from '../views/NextView.vue'
 import LastView from '../views/LastView.vue'
+import BoxView from '../views/BoxView.vue'
 
 const routes = [
   {
@@ -18,6 +19,11 @@ const routes = [
     path: '/last',
     name: 'last',
     component: LastView
+  },
+  {
+    path: '/Box',
+    name: 'Box',
+    component: BoxView
   }
 
 
