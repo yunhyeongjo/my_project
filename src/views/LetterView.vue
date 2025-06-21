@@ -39,7 +39,7 @@ import BoxView from './BoxView.vue'
 const finalLines = [
   '비록 완벽하지 않고, 부족한 나지만',
   '내곁에 항상 있어서줘 고맙고 사랑해',
-  '내 평생을 이제는 수현이와 함께 하고 싶어'
+  '내 평생을 이제 수현이와 함께 하고 싶어'
 ]
 
 const displayedLines = ref([])

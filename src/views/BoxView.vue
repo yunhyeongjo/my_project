@@ -1,8 +1,9 @@
 <template>
   <div class="App">
     <div class="img-container">
-      <img class="kuku" :class="state.jump" :src="kuku" alt="kuku" />
-      <button class="box" >
+      <img class="kuku" :class="state.jump" :src="kuku" alt="kuku" @click="goToNext" />
+      <p v-if="val" class="text-ring">ring click</p> <!-- ✨ ring 위에 겹칠 텍스트 -->
+      <button class="box">
         <img :src="box" alt="box" />
       </button>
       <img class="lid" :class="[state.move, state.rotating, state.rotated]" :src="boxLid" alt="box-lid" />
@@ -16,17 +17,26 @@ import box from '@/assets/box.png'
 import boxLid from '@/assets/box-lid.png'
 import kuku from '@/assets/jump-character.png'
 import { watch, ref } from 'vue'
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
+
+function goToNext () {
+  router.push('/last')
+}
 
 const props = defineProps({
   shouldOpenBox: Boolean
 })
 
+const val = ref(false)
 // const isOpen = ref(false)
 
 watch(
   () => props.shouldOpenBox,
   (newVal) => {
     if (newVal) {
+      val.value = true
       animate()
     }
   }
@@ -68,6 +78,18 @@ body {
   padding: 0;
   overflow: hidden;
   background: #f06a19;
+}
+
+.text-ring {
+  position: absolute;
+  left: 50%;
+  bottom: 10em; /* <-- 'kuku'가 점프한 최종 위치와 일치시켜야 함 */
+  transform: translateX(-50%);
+  color: white;
+  font-size: 1rem;
+  z-index: 4;
+  pointer-events: none; /* 텍스트 클릭 안 되게 */
+  animation: fadeInUp 0.5s ease;
 }
 
 .App {
