@@ -1,14 +1,14 @@
 <template>
   <div class="bgm-controller">
     <button @click="toggleMusic">
-      {{ isPlaying ? '🔊 음악 끄기' : '🔈 음악 켜기' }}
+      {{ isPlaying ? '🔊     ' : '🔈 ' }}
     </button>
   </div>
 </template>
 
 <script setup>
 import { ref, onMounted, onBeforeUnmount } from 'vue'
-import bgmFile from '@/assets/bgm.mp3' // assets 폴더에 bgm.mp3 위치
+import bgmFile from '@/assets/bgm.mp4' // assets 폴더에 bgm.mp3 위치
 
 const isPlaying = ref(true)
 const audio = ref(null)
@@ -52,18 +52,18 @@ function toggleMusic () {
   z-index: 9999; /* 항상 위에 */
 }
 
-button {
-  background: rgba(255, 255, 255, 0.8);
+.bgm-controller button {
+  background: rgba(255, 255, 255, 0);
   border: none;
   padding: 10px 14px;
   border-radius: 10px;
   font-size: 1rem;
   cursor: pointer;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  /* box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2); */
   transition: background 0.3s;
 }
 
 button:hover {
-  background: rgba(255, 255, 255, 1);
+  background: rgba(255, 255, 255, 0);
 }
 </style>

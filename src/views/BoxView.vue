@@ -2,7 +2,7 @@
   <div class="App">
     <div class="img-container">
       <img class="kuku" :class="state.jump" :src="kuku" alt="kuku" />
-      <button class="box" @click="animate">
+      <button class="box" >
         <img :src="box" alt="box" />
       </button>
       <img class="lid" :class="[state.move, state.rotating, state.rotated]" :src="boxLid" alt="box-lid" />
@@ -15,6 +15,22 @@ import { reactive } from 'vue'
 import box from '@/assets/box.png'
 import boxLid from '@/assets/box-lid.png'
 import kuku from '@/assets/jump-character.png'
+import { watch, ref } from 'vue'
+
+const props = defineProps({
+  shouldOpenBox: Boolean
+})
+
+// const isOpen = ref(false)
+
+watch(
+  () => props.shouldOpenBox,
+  (newVal) => {
+    if (newVal) {
+      animate()
+    }
+  }
+)
 
 // import Confetti from './confetti/Confetti.vue' // Vue용 Confetti로 교체 필요
 
@@ -70,6 +86,7 @@ body {
   bottom: 0;
   cursor: pointer;
   outline: none;
+  z-index: 3;
 }
 
 .box img {
@@ -77,11 +94,13 @@ body {
 }
 
 .kuku {
+  width: 150px;
+  height: 150px;
   position: absolute;
   left: 50%;
   transform: translate(-50%);
-  bottom: 0;
-  z-index: -1;
+  bottom: 0%;
+  z-index: 2;
 }
 
 .lid {
@@ -92,7 +111,7 @@ body {
 }
 
 .jump {
-  animation: 1s jump infinite alternate;
+   animation: 1s jump forwards;
 }
 
 .move {
@@ -147,7 +166,7 @@ body {
   }
 
   to {
-    bottom: 20em;
+    bottom: 10em;
   }
 }
 </style>

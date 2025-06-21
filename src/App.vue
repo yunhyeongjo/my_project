@@ -1,9 +1,10 @@
 <template>
+  <BgmPlayer />
   <router-view />
 </template>
 
 <script setup>
-
+import BgmPlayer from '@/components/BgmPlayer.vue'
 </script>
 
 <style>

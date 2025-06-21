@@ -17,8 +17,8 @@
 
       <!-- 실제 텍스트 -->
       <div class="text-lines">
-        <p>우리의 여기서의 재미 있는 이야기</p>
-        <p>지금 시작합니다</p>
+        <p>유니에게 메세지가 도착 했습니다</p>
+        <p>오키나와에서는 무슨일이?</p>
       </div>
     </div>
 
@@ -32,6 +32,7 @@
 <script setup>
 import { onMounted, onBeforeUnmount } from 'vue'
 import { useRouter } from 'vue-router'
+import BgmPlayer from '@/components/BgmPlayer.vue'
 
 const router = useRouter()
 
@@ -60,6 +61,14 @@ onBeforeUnmount(() => {
   font-weight: normal;
   font-style: normal;
 }
+
+@font-face {
+  font-family: 'Gwoun';
+  src: url('@/assets/fonts/GowunDodum-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
 
 .wrapper {
   position: relative;
@@ -92,7 +101,7 @@ onBeforeUnmount(() => {
   top: 15%;
   width: 100%;
   text-align: center;
-  font-family: 'Imk', sans-serif;
+  font-family: 'Gwoun', sans-serif;
   z-index: 2;
 }
 
@@ -101,8 +110,8 @@ onBeforeUnmount(() => {
   position: relative;
   z-index: 3;
   color: rgb(0, 0, 0);
-  font-size: 1.4rem;
-  text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.7);
+  font-size: 1.3rem;
+  text-shadow: rgba(0, 0, 0, 0.7);
 }
 
 .text-lines p {
